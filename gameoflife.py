@@ -43,49 +43,79 @@ def next_generation ( entrada , salida , seed_size ):
 
 			#First Row
 			if i == 0 :	
-
 				#First Col
 				if j == 0:
-					print("first first")
+					#print("first first")
+					if entrada[i][j+1] == "O": alive_around += 1
+					if entrada[i+1][j+1] == "O": alive_around += 1
+					if entrada[i+1][j] == "O": alive_around += 1
 
 				#Last Col
 				elif j == seed_size-1:
-					print("first last")	
+					#print("first last")
+					if entrada[i+1][j] == "O": alive_around += 1
+					if entrada[i+1][j-1] == "O": alive_around += 1
+					if entrada[i][j-1] == "O": alive_around += 1
 
 				#Other Cols
-				else: 
-					print("first middle")	
+				else:
+					#print("first middle")
+					if entrada[i][j+1] == "O": alive_around += 1
+					if entrada[i+1][j+1] == "O": alive_around += 1
+					if entrada[i+1][j] == "O": alive_around += 1
+					if entrada[i+1][j-1] == "O": alive_around += 1
+					if entrada[i][j-1] == "O": alive_around += 1
 
 			#Last Row
 			elif i == seed_size-1 :	
-
 				#First Col
 				if j == 0:
-					print("last first")	
+					#print("last first")
+					if entrada[i-1][j] == "O": alive_around += 1
+					if entrada[i-1][j+1] == "O": alive_around += 1
+					if entrada[i][j+1] == "O": alive_around += 1
 
 				#Last Col
 				elif j == seed_size-1:
-					print("last last")	
+					#print("last last")
+					if entrada[i-1][j-1] == "O": alive_around += 1
+					if entrada[i-1][j] == "O": alive_around += 1
+					if entrada[i][j-1] == "O": alive_around += 1
 
 				#Other Cols
-				else: 
-					print("last middle")	
+				else:
+					#print("last middle")
+					if entrada[i-1][j-1] == "O": alive_around += 1
+					if entrada[i-1][j] == "O": alive_around += 1
+					if entrada[i-1][j+1] == "O": alive_around += 1
+					if entrada[i][j+1] == "O": alive_around += 1
+					if entrada[i][j-1] == "O": alive_around += 1
 	
 
 			#Other Rows
 			else:	
-
+				
 				#First Col
 				if j == 0:
-					print("other first")	
+					#print("other first")
+					if entrada[i-1][j] == "O": alive_around += 1
+					if entrada[i-1][j+1] == "O": alive_around += 1
+					if entrada[i][j+1] == "O": alive_around += 1
+					if entrada[i+1][j+1] == "O": alive_around += 1
+					if entrada[i+1][j] == "O": alive_around += 1
 
 				#Last Col
 				elif j == seed_size-1:
-					print("other last")	
+					#print("other last")
+					if entrada[i-1][j-1] == "O": alive_around += 1
+					if entrada[i-1][j] == "O": alive_around += 1
+					if entrada[i+1][j] == "O": alive_around += 1
+					if entrada[i+1][j-1] == "O": alive_around += 1
+					if entrada[i][j-1] == "O": alive_around += 1	
 
 				#Other Cols
-				else: 
-					print("other middle")
+				else:
+					#print("other middle")
 					if entrada[i-1][j-1] == "O": alive_around += 1
 					if entrada[i-1][j] == "O": alive_around += 1
 					if entrada[i-1][j+1] == "O": alive_around += 1
@@ -95,14 +125,10 @@ def next_generation ( entrada , salida , seed_size ):
 					if entrada[i+1][j-1] == "O": alive_around += 1
 					if entrada[i][j-1] == "O": alive_around += 1
 
-			print(str(i) + " " + str(j) + " > " + str(alive_around))
+			#print(str(i) + " " + str(j) + " > " + str(alive_around))
 
 			#Define action depending current alive or dead
 			aux = result[i]
-			#print(aux)
-			#aux = aux[:j] + "O" + aux[j+1:]
-			#result[i] = aux
-
 			if entrada[i][j] == "O":				
 
 				#Less than 2 > Dead
@@ -110,24 +136,24 @@ def next_generation ( entrada , salida , seed_size ):
 					aux = aux[:j] + "." + aux[j+1:]
 					result[i] = aux
 
-				#2 or 3 > Live
-				elif alive_around in range (2,3): 
-					aux = aux[:j] + "O" + aux[j+1:]
-					result[i] = aux
-
 				#More than 3 > Dead
 				elif alive_around > 3: 
 					aux = aux[:j] + "." + aux[j+1:]
 					result[i] = aux	
 
+				#2 or 3 > Live
+				elif alive_around == 2 or alive_around == 3: 
+					aux = aux[:j] + "O" + aux[j+1:]
+					result[i] = aux
+
+
 			elif entrada[i][j] == ".": 
 				#3 > Born 
 				if alive_around == 3:
 					aux = aux[:j] + "O" + aux[j+1:]
-					result[i] = aux	
+					result[i] = aux
 
 			j += 1
-		print("\n")
 		i += 1
 
 
@@ -139,7 +165,7 @@ seed_lines :str = seed.readlines()
 
 #Validate Seed Format > Nonzero exit status
 validFormat :bool = validateFormat(seed_lines)
-print("Formato Valido? " + str(validFormat))
+#print("Valid Format? " + str(validFormat))
 
 #Find size of Seed
 seed_size :int = 0
@@ -147,7 +173,7 @@ for line in seed_lines:
     if not line.startswith('!'):
     	seed_size = len(line)-line.count('\n')
 
-print("Seed size: " + str(seed_size))
+#print("Seed size: " + str(seed_size))
 
 #Create Input (original) Array
 #Tip 2: Ignore lines starts with !
@@ -161,19 +187,23 @@ for line in seed_lines:
     	word :str = line.rstrip()
     	origin[i] = word
     	i += 1
-
-print("Origin: " + str(origin))
+#print("Origin: " + str(origin))
 
 #Create Output (result) Array
-result :str = origin
-print("Result: " + str(result))
+result :str = [[ '' for i in range(seed_size) ] for j in range(seed_size) ]
 
-
+#Fill & clean First Next Gent Array
+i :int = 0;
+for line in seed_lines:
+    if not line.startswith('!'):
+    	word :str = line.rstrip()
+    	result[i] = word
+    	i += 1
+#print("Result: " + str(result))
 
 #Travel Input Matrix Content creating Output Matrix Content 
 #Tip3: Be careful with border rows and cols
 next_generation(origin, result, seed_size)
-
 
 #Print Game of Life results
 for row in result:
