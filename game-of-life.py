@@ -1,5 +1,5 @@
 #imports required to read files from patterns folder
-import sys
+
 
 #Function that Validates Seed Format 
 def validateFormat( lines :str ):
@@ -165,9 +165,7 @@ seed_lines :str = seed.readlines()
 
 #Validate Seed Format > Nonzero exit status
 validFormat :bool = validateFormat(seed_lines)
-if not validFormat:
-	sys.exit("Invalid Format File!")
-print("Valid Format? " + str(validFormat))
+#print("Valid Format? " + str(validFormat))
 
 #Find size of Seed
 seed_size :int = 0
