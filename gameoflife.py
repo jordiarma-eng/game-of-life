@@ -1,10 +1,10 @@
 #imports required to read files from patterns folder
-import string
+
 
 #Validate Format Function
-def validateFormat( str ):
-	start = True
-	seed_line_size = 0
+def validateFormat( lines :str ):
+	start :bool = True
+	seed_line_size :int = 0
 	for line in lines:
 		if line[0] == '!' and start:
 			#Valid Format, don't do anything
@@ -20,7 +20,7 @@ def validateFormat( str ):
 				#Invalid Format, Not Squared Matrix
 				return False
 
-			i = 1
+			i :int = 1
 			while i < seed_line_size:
 				if (line[i] != '.' and line[i] != 'O'):
 					#Invalid Format, Contains Not Expected Characters
@@ -30,14 +30,15 @@ def validateFormat( str ):
 		else: 
 			#Invalid format, Unexpected Cases
 			return False
+		print(line)
 	return True
 
 #Read Seed (Input Text Pattern) from File
-seed = open("patterns/toad.life", "r")
-lines = seed.readlines()
+seed :str = open("patterns/toad.life", "r")
+lines :str = seed.readlines()
 
 #Validate Seed Format > Nonzero exit status
-validFormat = validateFormat(seed)
+validFormat :bool = validateFormat(lines)
 print("Formato Valido? " + str(validFormat))
 
 
