@@ -167,7 +167,7 @@ seed_lines :str = seed.readlines()
 validFormat :bool = validateFormat(seed_lines)
 if not validFormat:
 	sys.exit("Invalid Format File!")
-print("Valid Format? " + str(validFormat))
+#print("Valid Format? " + str(validFormat))
 
 #Find size of Seed
 seed_size :int = 0
