@@ -1,7 +1,7 @@
 #imports required to read files from patterns folder
 
 
-#Validate Format Function
+#Function that Validates Seed Format 
 def validateFormat( lines :str ):
 	start :bool = True
 	line_size :int = 0
@@ -33,6 +33,106 @@ def validateFormat( lines :str ):
 	return True
 
 
+#Function that calculates the next generation of the Game of Life Infection
+def next_generation ( entrada , salida , seed_size ):
+	i :int = 0
+	while i < seed_size:
+		j :int = 0
+		while j < seed_size:
+			alive_around :int = 0	
+
+			#First Row
+			if i == 0 :	
+
+				#First Col
+				if j == 0:
+					print("first first")
+
+				#Last Col
+				elif j == seed_size-1:
+					print("first last")	
+
+				#Other Cols
+				else: 
+					print("first middle")	
+
+			#Last Row
+			elif i == seed_size-1 :	
+
+				#First Col
+				if j == 0:
+					print("last first")	
+
+				#Last Col
+				elif j == seed_size-1:
+					print("last last")	
+
+				#Other Cols
+				else: 
+					print("last middle")	
+	
+
+			#Other Rows
+			else:	
+
+				#First Col
+				if j == 0:
+					print("other first")	
+
+				#Last Col
+				elif j == seed_size-1:
+					print("other last")	
+
+				#Other Cols
+				else: 
+					print("other middle")
+					if entrada[i-1][j-1] == "O": alive_around += 1
+					if entrada[i-1][j] == "O": alive_around += 1
+					if entrada[i-1][j+1] == "O": alive_around += 1
+					if entrada[i][j+1] == "O": alive_around += 1
+					if entrada[i+1][j+1] == "O": alive_around += 1
+					if entrada[i+1][j] == "O": alive_around += 1
+					if entrada[i+1][j-1] == "O": alive_around += 1
+					if entrada[i][j-1] == "O": alive_around += 1
+
+			print(str(i) + " " + str(j) + " > " + str(alive_around))
+
+			#Define action depending current alive or dead
+			aux = result[i]
+			#print(aux)
+			#aux = aux[:j] + "O" + aux[j+1:]
+			#result[i] = aux
+
+			if entrada[i][j] == "O":				
+
+				#Less than 2 > Dead
+				if alive_around < 2: 
+					aux = aux[:j] + "." + aux[j+1:]
+					result[i] = aux
+
+				#2 or 3 > Live
+				elif alive_around in range (2,3): 
+					aux = aux[:j] + "O" + aux[j+1:]
+					result[i] = aux
+
+				#More than 3 > Dead
+				elif alive_around > 3: 
+					aux = aux[:j] + "." + aux[j+1:]
+					result[i] = aux	
+
+			elif entrada[i][j] == ".": 
+				#3 > Born 
+				if alive_around == 3:
+					aux = aux[:j] + "O" + aux[j+1:]
+					result[i] = aux	
+
+			j += 1
+		print("\n")
+		i += 1
+
+
+
+#ENTRY POINT OF GAME OF LIFE SIMULATION
 #Read Seed (Input Text Pattern) from File
 seed :str = open("patterns/toad.life", "r")
 seed_lines :str = seed.readlines()
@@ -51,7 +151,8 @@ print("Seed size: " + str(seed_size))
 
 #Create Input (original) Array
 #Tip 2: Ignore lines starts with !
-origin :str = [[ '.' for i in range(seed_size) ] for j in range(seed_size) ]
+origin :str = [[ '' for i in range(seed_size) ] for j in range(seed_size) ]
+
 
 #Fill & clean origin Array
 i :int = 0;
@@ -68,9 +169,10 @@ result :str = origin
 print("Result: " + str(result))
 
 
+
 #Travel Input Matrix Content creating Output Matrix Content 
 #Tip3: Be careful with border rows and cols
-
+next_generation(origin, result, seed_size)
 
 
 #Print Game of Life results
